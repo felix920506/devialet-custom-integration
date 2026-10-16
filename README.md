@@ -20,6 +20,19 @@ This integration talks to the same local HTTP API the speaker's configuration pa
 
 The speaker is polled every 10 seconds.
 
+### Simple mode
+
+Enable **Simple mode** when adding a speaker, or later via **Configure** on the integration, to expose only:
+
+- the speaker as a `media_player` that can be turned **on** or put in **standby**
+- the **LED mode** select
+
+The firmware has no real standby, so standby is faked by setting the volume to 0%. Before that, the current volume is saved in Home Assistant's storage (`.storage/devialet_custom.<entry_id>`), and turning the speaker back on restores it. If nothing has been saved yet, the speaker's startup volume is used (or 50% if that is 0%). The saved volume is shown in the `saved_volume` attribute.
+
+The speaker reports standby whenever its volume is 0%. Because it returns to its startup volume after a power cycle, it shows as on again after a reboot.
+
+Switching modes reloads the integration. Entities that simple mode doesn't use are removed, along with any customizations you made to them.
+
 ## Installation
 
 ### HACS

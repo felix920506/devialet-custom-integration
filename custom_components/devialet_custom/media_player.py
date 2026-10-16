@@ -1,4 +1,8 @@
-"""Media player for Devialet Custom: volume, mute and input source."""
+"""Media player for Devialet Custom.
+
+In full mode it controls volume, mute and input source. In simple mode it
+only offers on/standby, faking standby by setting the volume to 0%.
+"""
 
 from __future__ import annotations
 
@@ -22,7 +26,11 @@ async def async_setup_entry(
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the media player."""
-    async_add_entities([DevialetMediaPlayer(entry.runtime_data)])
+    coordinator = entry.runtime_data
+    if coordinator.simple_mode:
+        async_add_entities([DevialetSimpleMediaPlayer(coordinator)])
+    else:
+        async_add_entities([DevialetMediaPlayer(coordinator)])
 
 
 class DevialetMediaPlayer(DevialetEntity, MediaPlayerEntity):
@@ -69,3 +77,37 @@ class DevialetMediaPlayer(DevialetEntity, MediaPlayerEntity):
 
     async def async_select_source(self, source: str) -> None:
         await self.coordinator.async_set("source", source)
+
+
+class DevialetSimpleMediaPlayer(DevialetEntity, MediaPlayerEntity):
+    """The speaker as an on/standby switch.
+
+    The firmware has no standby, so standby is volume 0%. The previous volume
+    is saved by the coordinator and restored when turned back on.
+    """
+
+    _attr_name = None
+    _attr_device_class = MediaPlayerDeviceClass.SPEAKER
+    _attr_supported_features = (
+        MediaPlayerEntityFeature.TURN_ON | MediaPlayerEntityFeature.TURN_OFF
+    )
+
+    def __init__(self, coordinator: DevialetCoordinator) -> None:
+        super().__init__(coordinator, "media_player")
+
+    @property
+    def state(self) -> MediaPlayerState:
+        data = self.coordinator.data
+        if data.get("powerstate") != "Running" or not data.get("volume"):
+            return MediaPlayerState.STANDBY
+        return MediaPlayerState.ON
+
+    @property
+    def extra_state_attributes(self) -> dict[str, int | None]:
+        return {"saved_volume": self.coordinator.saved_volume}
+
+    async def async_turn_on(self) -> None:
+        await self.coordinator.async_wake()
+
+    async def async_turn_off(self) -> None:
+        await self.coordinator.async_standby()

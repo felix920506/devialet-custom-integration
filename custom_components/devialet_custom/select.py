@@ -9,7 +9,7 @@ from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from .const import SOURCES
+from .const import SIMPLE_MODE_KEYS, SOURCES
 from .coordinator import DevialetConfigEntry, DevialetCoordinator
 from .entity import DevialetEntity
 
@@ -49,8 +49,11 @@ async def async_setup_entry(
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up select entities."""
+    coordinator = entry.runtime_data
     async_add_entities(
-        DevialetSelect(entry.runtime_data, description) for description in SELECTS
+        DevialetSelect(coordinator, description)
+        for description in SELECTS
+        if not coordinator.simple_mode or description.key in SIMPLE_MODE_KEYS
     )
 
 

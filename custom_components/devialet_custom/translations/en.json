@@ -5,7 +5,11 @@
         "title": "Devialet Custom speaker",
         "description": "Enter the IP address or hostname of the speaker's configuration page.",
         "data": {
-          "host": "Host"
+          "host": "Host",
+          "simple_mode": "Simple mode"
+        },
+        "data_description": {
+          "simple_mode": "Only expose on/standby and the LED mode. Standby sets the volume to 0% and turning on restores the previous volume."
         }
       }
     },
@@ -16,11 +20,30 @@
       "already_configured": "This speaker is already configured."
     }
   },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Devialet Custom options",
+        "data": {
+          "simple_mode": "Simple mode"
+        },
+        "data_description": {
+          "simple_mode": "Only expose on/standby and the LED mode. Standby sets the volume to 0% and turning on restores the previous volume."
+        }
+      }
+    }
+  },
   "entity": {
     "number": {
-      "startup_volume": { "name": "Startup volume" },
-      "max_spl": { "name": "Max SPL" },
-      "analog_sensitivity": { "name": "Analog sensitivity" }
+      "startup_volume": {
+        "name": "Startup volume"
+      },
+      "max_spl": {
+        "name": "Max SPL"
+      },
+      "analog_sensitivity": {
+        "name": "Analog sensitivity"
+      }
     },
     "select": {
       "led_mode": {
@@ -40,15 +63,29 @@
           "mono": "Mono mix"
         }
       },
-      "startup_source": { "name": "Startup source" }
+      "startup_source": {
+        "name": "Startup source"
+      }
     },
     "sensor": {
-      "source_state": { "name": "Source state" },
-      "stream_type": { "name": "Stream type" },
-      "internal_state": { "name": "Internal state" },
-      "asic_temperature": { "name": "ASIC temperature" },
-      "damp_temperature": { "name": "Amplifier temperature" },
-      "soc_temperature": { "name": "SoC temperature" }
+      "source_state": {
+        "name": "Source state"
+      },
+      "stream_type": {
+        "name": "Stream type"
+      },
+      "internal_state": {
+        "name": "Internal state"
+      },
+      "asic_temperature": {
+        "name": "ASIC temperature"
+      },
+      "damp_temperature": {
+        "name": "Amplifier temperature"
+      },
+      "soc_temperature": {
+        "name": "SoC temperature"
+      }
     }
   }
 }
