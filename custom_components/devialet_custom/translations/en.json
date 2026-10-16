@@ -1,0 +1,54 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Devialet Custom speaker",
+        "description": "Enter the IP address or hostname of the speaker's configuration page.",
+        "data": {
+          "host": "Host"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect. Check the address and that the speaker is online."
+    },
+    "abort": {
+      "already_configured": "This speaker is already configured."
+    }
+  },
+  "entity": {
+    "number": {
+      "startup_volume": { "name": "Startup volume" },
+      "max_spl": { "name": "Max SPL" },
+      "analog_sensitivity": { "name": "Analog sensitivity" }
+    },
+    "select": {
+      "led_mode": {
+        "name": "LED mode",
+        "state": {
+          "off": "Off",
+          "on": "On",
+          "slow_blink": "Slow blinking",
+          "fast_blink": "Fast blinking"
+        }
+      },
+      "channel_mix": {
+        "name": "Channel mix",
+        "state": {
+          "left": "Left",
+          "right": "Right",
+          "mono": "Mono mix"
+        }
+      },
+      "startup_source": { "name": "Startup source" }
+    },
+    "sensor": {
+      "source_state": { "name": "Source state" },
+      "stream_type": { "name": "Stream type" },
+      "internal_state": { "name": "Internal state" },
+      "asic_temperature": { "name": "ASIC temperature" },
+      "damp_temperature": { "name": "Amplifier temperature" },
+      "soc_temperature": { "name": "SoC temperature" }
+    }
+  }
+}
